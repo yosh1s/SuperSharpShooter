@@ -1,3 +1,9 @@
+Forking... and fixing a couple of things.  Other than that, I'll leave everything else 
+untouched, complete with credit to the original author/project!
+
+Big ups MDSec!
+Original project:  https://github.com/mdsecactivebreach/SharpShooter
+=========== =========== =========== =========== =========== =========== =========== ===========
 ```
    _____ __                    _____ __                __           
   / ___// /_  ____ __________ / ___// /_  ____  ____  / /____  _____
