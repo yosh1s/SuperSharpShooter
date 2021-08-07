@@ -1,5 +1,14 @@
-Forking... and fixing a couple of things.  Other than that, I'll leave everything else 
-untouched, complete with credit to the original author/project!
+Forking... and fixing a couple of things.
+
+What's new:
+1. AMSI bypasses less path/fname dependent on target.  Also worked on both the JS and VBS versions in this respect
+2. It's 2021 and we needed Defender Bypass... because hardcoded super simple shit string "SharpShooter" just too damn simple.  ...and added a bit of polymorphism
+3. Ported to python3... might be more left to do (worth exploring/reporting)
+4. Code cleanup and paving the way for going harder in on OOB methodologies
+5. I can confirm AMSI bypass + Defender bypass + stageless JS and also stageless smuggled JS work...  VBS unable to test due to isolation and lack of .NET 3.5 (2,3).
+6. Probably more I'm forgetting
+
+
 
 Big ups MDSec!
 Original project:  https://github.com/mdsecactivebreach/SharpShooter
