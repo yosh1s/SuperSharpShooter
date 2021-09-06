@@ -158,7 +158,8 @@ class SuperSharpShooter:
 
 	def read_file_binary(x,f):
 		with open(f, 'rb') as F:
-			return F.read()
+			content = F.read()
+		return content
 
 	def rand_key(x, n):
 		return ''.join([random.choice(string.ascii_lowercase) for i in range(n)])
