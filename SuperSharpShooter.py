@@ -577,7 +577,7 @@ End Sub"""
 				x.gzip_encoded = base64.b64encode(x.shellcode_gzip.getvalue())
 				f.write(x.gzip_encoded)
 				f.close()
-				print_msg("Written shellcode payload to output/%s" % x.outputfile_shellcode)
+				print_msg(f"File [output/{x.outputfile_shellcode}] successfully created!... \n\t  ^^ Host this at: {x.args.web}")
 
 		if not x.file_type in ["vba"]:
 			if (x.args.smuggle):

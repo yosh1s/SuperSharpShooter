@@ -117,7 +117,7 @@ def run_embedInHtml(key, fileName, outFileName, template_name):
             with open(fileName, 'rb') as fileHandle:
                 fileBytes = bytearray(fileHandle.read())
                 fileHandle.close()
-                print("\033[1;34m[*]\033[0;0m File [{}] successfully loaded !".format(fileName))
+                print("\033[1;34m[*]\033[0;0m File [{}] successfully loaded !  (will be smuggled in .html)".format(fileName))
         except IOError:
             print("\033[93m[!]\033[0;0m Could not open or read file [{}]".format(fileName))
             quit()
@@ -210,7 +210,7 @@ def run_embedInHtml(key, fileName, outFileName, template_name):
             try:
                 with open(htmlFile, 'w') as fileHandle:
                     fileHandle.write(resultHTML)
-                    print("\033[1;34m[*]\033[0;0m File [{}] successfully created !".format(htmlFile))
+                    print("\033[1;34m[*]\033[0;0m File [{}] successfully created !  \n\t  ^^ Serve this to your client!".format(htmlFile))
             except IOError:
                 print("\033[1;31m[!]\033[0;0m Could not open or write file [{}]".format(htmlFile))
                 quit()
