@@ -418,6 +418,7 @@ End Sub"""
 					x.shellcode = []
 
 					x.sc = x.read_file(x.args.shellcode_file)
+					x.sc = re.sub('(byte\[\] buf.*{|};|\\n)','',x.sc)
 					x.shellcode.append(x.sc)
 
 					x.shellcode = "\n".join(x.shellcode)
