@@ -49,7 +49,7 @@ class SuperSharpShooter:
                               /_/
 
      {BGREEN}Dominic Chell, @domchell, MDSec ActiveBreach, v2.0{RESET}
-     {BGREEN}SYANiDE, v3.0 Whiskey Tango Foxtrot edition{RESET}
+     {BGREEN}SYANiDE, v3.1 Clinical Precision {RESET}
 """
 
 	def validate_args(x):
