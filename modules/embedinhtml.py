@@ -210,7 +210,7 @@ def run_embedInHtml(key, fileName, outFileName, template_name):
             try:
                 with open(htmlFile, 'w') as fileHandle:
                     fileHandle.write(resultHTML)
-                    print("\033[1;34m[*]\033[0;0m File [{}] successfully created !  \n\t  ^^ Serve this to your client!".format(htmlFile))
+                    print("\033[1;34m[*]\033[0;0m File [{}] successfully created !  \n\t  ^^ Selected delivery method".format(htmlFile))
             except IOError:
                 print("\033[1;31m[!]\033[0;0m Could not open or write file [{}]".format(htmlFile))
                 quit()

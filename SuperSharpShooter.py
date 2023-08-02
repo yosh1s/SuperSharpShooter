@@ -570,14 +570,17 @@ End Sub"""
 			f.write(x.payload.encode('utf-8'))
 		f.close()
 
-		print_msg("Written delivery payload to output/%s" % x.outputfile_payload)
 		if x.shellcode_delivery:
+			print_msg(f"File [output/{x.outputfile_payload}] successfully created!\n\t  ^^ Selected delivery method will deliver this")
 			x.outputfile_shellcode = x.outputfile + ".payload"
 			with open("output/" + x.outputfile_shellcode, 'wb') as f:
 				x.gzip_encoded = base64.b64encode(x.shellcode_gzip.getvalue())
 				f.write(x.gzip_encoded)
 				f.close()
-				print_msg(f"File [output/{x.outputfile_shellcode}] successfully created!... \n\t  ^^ Host this at: {x.args.web}")
+				print_msg(f"File [output/{x.outputfile_shellcode}] successfully created!... \n\t  ^^ Selected delivery method expects this at: {x.args.web}")
+		else:
+			print_msg("Written delivery payload to output/%s" % x.outputfile_payload)
+		
 
 		if not x.file_type in ["vba"]:
 			if (x.args.smuggle):
